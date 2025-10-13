@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Customer Dashboard{% endblock %}
+
+{% block content %}
+    <h2>Customer Dashboard</h2>
+    <p>Welcome, Customer #{{ session.cust_id }}!</p>
+     <p>Use the navigation links above to browse books or view your purchase history.</p>
+    <ul>
+        <li><a href="{{ url_for('customer_view_books') }}">View & Buy Books</a> - Browse available books and make purchases.</li>
+        <li><a href="{{ url_for('customer_purchase_history') }}">View Purchase History</a> - See a list of your past orders.</li>
+    </ul>
+{% endblock %}

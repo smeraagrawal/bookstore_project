@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}View All Reports{% endblock %}
+
+{% block content %}
+    <h2>All Purchase Reports</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Report No</th>
+                <th>Date</th>
+                <th>Cust. ID</th>
+                <th>Customer Name</th>
+                <th>Book ID</th>
+                <th>Book Name</th>
+                <th>Quantity</th>
+                <th>Total Price (Rs.)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td>{{ report.r_no }}</td>
+                <td>{{ report.p_date.strftime('%Y-%m-%d') if report.p_date else 'N/A' }}</td>
+                <td>{{ report.c_id if report.c_id else 'N/A' }}</td>
+                <td>{{ report.c_name if report.c_name else '(Customer Deleted)' }}</td>
+                <td>{{ report.b_id if report.b_id else 'N/A' }}</td>
+                <td>{{ report.b_name if report.b_name else '(Book Deleted)' }}</td>
+                <td>{{ report.quantity }}</td>
+                <td>{{ "%.2f"|format(report.price) if report.price is not none else 'N/A' }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="8" style="text-align: center;">No purchase reports found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

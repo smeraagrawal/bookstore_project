@@ -1,0 +1,10 @@
+{% extends "base.html" %} {# Inherits structure from base.html #}
+{% block title %}Admin Dashboard{% endblock %} {# Sets the page title #}
+
+{% block content %}
+    <h2>Admin Dashboard</h2>
+    {# Updated welcome message #}
+    <p>Welcome to our Bookstore Admin Panel!</p> {# CHANGED TEXT #}
+    <p>Use the navigation links above to manage the different sections of the bookstore.</p>
+    {# The list of links below is removed as it's redundant with the top navigation bar #}
+{% endblock %}

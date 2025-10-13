@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Purchase History{% endblock %}
+
+{% block content %}
+    <h2>Your Purchase History</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Report No</th>
+                <th>Date</th>
+                <th>Book Name</th>
+                <th>Quantity</th>
+                <th>Total Price (Rs.)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in history %}
+            <tr>
+                <td>{{ record.r_no }}</td>
+                <td>{{ record.p_date.strftime('%Y-%m-%d') if record.p_date else 'N/A'}}</td>
+                <td>{{ record.b_name if record.b_name else '(Book Deleted)' }}</td>
+                <td>{{ record.quantity }}</td>
+                <td>{{ "%.2f"|format(record.price) if record.price is not none else 'N/A'}}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" style="text-align: center;">You have no purchase history yet. <a href="{{ url_for('customer_view_books') }}">Buy some books!</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

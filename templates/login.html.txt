@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <div style="max-width: 400px; margin: 40px auto; padding: 20px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <h2>Login to Bookstore</h2>
+        <form method="POST" action="{{ url_for('login') }}">
+            <div style="margin-bottom: 15px;">
+                <label for="login_id" style="display: block; margin-bottom: 5px;">Login ID:</label>
+                <input type="text" id="login_id" name="login_id" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="password" style="display: block; margin-bottom: 5px;">Password:</label>
+                <input type="password" id="password" name="password" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+            </div>
+            <button type="submit" style="width: 100%; padding: 10px;">Login</button>
+        </form>
+    </div>
+{% endblock %}

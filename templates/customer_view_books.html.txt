@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Available Books{% endblock %}
+
+{% block content %}
+    <h2>Available Books</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Author</th>
+                <th>Genre</th>
+                <th>Price (Rs.)</th>
+                <th>Stock</th>
+                <th>Quantity</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.b_id }}</td>
+                <td>{{ book.b_name }}</td>
+                <td>{{ book.a_name if book.a_name else 'N/A' }}</td>
+                <td>{{ book.genre if book.genre else 'N/A' }}</td>
+                <td>{{ "%.2f"|format(book.price) }}</td>
+                <td>{{ book.quantity }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('customer_buy_book') }}" class="form-inline">
+                        <input type="hidden" name="b_id" value="{{ book.b_id }}">
+                        <input type="number" name="quantity" value="1" min="1" max="{{ book.quantity }}" required style="width: 60px; padding: 8px; box-sizing: border-box;">
+                </td>
+                <td>
+                        <button type="submit" class="buy-button">Buy</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="8" style="text-align: center;">No books currently available. Please check back later.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
