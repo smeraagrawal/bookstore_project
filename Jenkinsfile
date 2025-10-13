@@ -1,37 +1,37 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = "bookstore_app"
-        CONTAINER_NAME = "bookstore-container"
-        PORT = "8501"
-    }
-
     stages {
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
-                // Checkout correct branch from GitHub
+                echo 'Cloning project from GitHub...'
                 git branch: 'main', url: 'https://github.com/smeraagrawal/bookstore_project.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    sh "docker build -t ${IMAGE_NAME} ."
-                }
+                echo 'Building Docker image...'
+                sh 'docker build -t bookstore_app .'
             }
         }
 
         stage('Run Docker Container') {
             steps {
-                script {
-                    // Remove any existing container
-                    sh "docker rm -f ${CONTAINER_NAME} || true"
-                    // Run new container
-                    sh "docker run -d -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_NAME}"
-                }
+                echo 'Running Docker container...'
+                sh 'docker stop bookstore-container || true'   // stop if exists
+                sh 'docker rm bookstore-container || true'    // remove if exists
+                sh 'docker run -d -p 8501:8501 --name bookstore-container bookstore_app'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline finished successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
         }
     }
 }
