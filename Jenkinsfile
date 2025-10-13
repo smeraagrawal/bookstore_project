@@ -1,25 +1,35 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "bookstore_app"
+        CONTAINER_NAME = "bookstore-container"
+        PORT = "8501"
+    }
+
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/smeraagrawal/bookstore_project.git'
+                // Checkout correct branch from GitHub
+                git branch: 'main', url: 'https://github.com/smeraagrawal/bookstore_project.git'
             }
         }
+
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t bookstore_app .'
+                    sh "docker build -t ${IMAGE_NAME} ."
                 }
             }
         }
+
         stage('Run Docker Container') {
             steps {
                 script {
-                    sh 'docker stop bookstore-container || true'
-                    sh 'docker rm bookstore-container || true'
-                    sh 'docker run -d -p 8501:8501 --name bookstore-container bookstore_app'
+                    // Remove any existing container
+                    sh "docker rm -f ${CONTAINER_NAME} || true"
+                    // Run new container
+                    sh "docker run -d -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_NAME}"
                 }
             }
         }
